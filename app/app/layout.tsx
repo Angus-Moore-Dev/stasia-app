@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter, Rajdhani, Ubuntu } from 'next/font/google'
-import './globals.css'
+import '../globals.css'
 
 const inter = Rajdhani({ subsets: ['latin'], weight: '600' })
 
@@ -18,10 +18,8 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en" className='bg-background text-white dark'>
-			<body className={inter.className}>
-				{children}
-			</body>
-		</html>
+		<main lang="en" className={`${inter.className} bg-background text-white dark`}>
+			{children}
+		</main>
 	)
 }
