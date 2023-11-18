@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import { Inter, Rajdhani, Ubuntu } from 'next/font/google'
 import '../globals.css'
+import AppNavbar from '@/components/AppNavbar';
 
-const inter = Rajdhani({ subsets: ['latin'], weight: '600' })
+const inter = Rajdhani({ subsets: ['latin'], weight: '600' });
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
 	title: 'Stasia',
@@ -18,7 +20,8 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<main lang="en" className={`${inter.className} bg-background text-white dark`}>
+		<main lang="en" className={`${inter.className} bg-background text-white dark min-h-screen flex flex-col`}>
+			<AppNavbar />
 			{children}
 		</main>
 	)
