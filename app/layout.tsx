@@ -31,10 +31,7 @@ export default function RootLayout({
 				<ColorSchemeScript color='dark' forceColorScheme='dark' defaultColorScheme='dark' />
 			</head>
 			<body className={inter.className}>
-				<MantineProvider theme={{ 
-					primaryColor: 'green',
-					fontFamily: 'Inter, sans-serif',
-				}} defaultColorScheme='dark' >
+				<MantineProvider defaultColorScheme='dark' >
 					<Notifications />
 					{children}
 				</MantineProvider>
