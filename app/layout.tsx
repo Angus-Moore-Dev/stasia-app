@@ -1,9 +1,16 @@
-import type { Metadata } from 'next'
-import { Inter, Rajdhani, Ubuntu } from 'next/font/google'
-import './globals.css'
+import type { Metadata } from 'next';
+import { Inter, Rajdhani, Ubuntu } from 'next/font/google';
+import { Notifications } from '@mantine/notifications';
 
+import './globals.css';
+import '@mantine/core/styles.css';
+import '@mantine/tiptap/styles.css';
+import '@mantine/notifications/styles.css';
+
+import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 const inter = Rajdhani({ subsets: ['latin'], weight: '600' });
 
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
 	title: 'Stasia',
@@ -19,9 +26,18 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en" className='bg-background text-white dark'>
-			<body className={inter.className}>
-				{children}
+		<html lang="en">
+			<head>
+				<ColorSchemeScript color='gray' forceColorScheme='dark' defaultColorScheme='dark' />
+			</head>
+			<body className=''>
+				<MantineProvider theme={{ 
+					primaryColor: 'gray',
+					fontFamily: 'Inter, sans-serif',
+				}} defaultColorScheme='dark' >
+					<Notifications />
+					{children}
+				</MantineProvider>
 			</body>
 		</html>
 	)
