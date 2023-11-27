@@ -26,12 +26,14 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en">
+		<html lang="en" data-mantine-color-scheme="dark">
 			<head>
 				<ColorSchemeScript color='dark' forceColorScheme='dark' defaultColorScheme='dark' />
 			</head>
 			<body className={inter.className}>
-				<MantineProvider defaultColorScheme='dark' >
+				<MantineProvider defaultColorScheme='dark' theme={{
+					primaryColor: 'dark'
+				}} >
 					<Notifications />
 					{children}
 				</MantineProvider>
