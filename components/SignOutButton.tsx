@@ -30,7 +30,7 @@ export default function SignOutButton({ user }: { user: User })
             Sign Out
         </Button>
     </Modal>
-    <Button variant='outline' onClick={open}>
+    <Button variant='default' onClick={open}>
         {user.email}
     </Button>
     </>
