@@ -8,7 +8,7 @@ import '@mantine/tiptap/styles.css';
 import '@mantine/notifications/styles.css';
 
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
-const inter = Inter({ subsets: ['latin'], weight: '600' });
+const inter = Inter({ subsets: ['latin'] });
 
 export const dynamic = 'force-dynamic';
 
@@ -28,11 +28,11 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<head>
-				<ColorSchemeScript color='gray' forceColorScheme='dark' defaultColorScheme='dark' />
+				<ColorSchemeScript color='dark' forceColorScheme='dark' defaultColorScheme='dark' />
 			</head>
 			<body className={inter.className}>
 				<MantineProvider theme={{ 
-					primaryColor: 'gray',
+					primaryColor: 'dark',
 					fontFamily: 'Inter, sans-serif',
 				}} defaultColorScheme='dark' >
 					<Notifications />
