@@ -106,7 +106,7 @@ export default function SignUpModal()
                 className="w-full flex flex-col gap-4">
                     <TextInput label="Your Email" placeholder="mr.electric@dreamland.com" required withAsterisk {...form.getInputProps('email')} />
                     <TextInput label="Your Password" placeholder="********" type="password" required withAsterisk {...form.getInputProps('password')} />
-                    <Button type="submit" loading={isLoading}>
+                    <Button variant="filled" type="submit" loading={isLoading}>
                         Sign {signUp ? 'Up' : 'In'}
                     </Button>
                 </form>
@@ -121,7 +121,7 @@ export default function SignUpModal()
                 <p className="text-center">
                     Thank you for signing up! Please check your email to confirm your account.
                 </p>
-                <Button onClick={() => {
+                <Button variant="filled" onClick={() => {
                     setShowConfirmEmail(false);
                     form.reset();
                 }} className="mt-4">
@@ -131,6 +131,6 @@ export default function SignUpModal()
         }
     </Modal>
 
-    <Button onClick={open}>Sign In To Stasia</Button>
+    <Button variant="filled" onClick={open}>Sign In To Stasia</Button>
     </>
 }
