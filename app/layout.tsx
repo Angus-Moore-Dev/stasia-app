@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Rajdhani, Ubuntu } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import { Notifications } from '@mantine/notifications';
 
 import './globals.css';
@@ -8,7 +8,7 @@ import '@mantine/tiptap/styles.css';
 import '@mantine/notifications/styles.css';
 
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
-const inter = Rajdhani({ subsets: ['latin'], weight: '600' });
+const inter = Inter({ subsets: ['latin'], weight: '600' });
 
 export const dynamic = 'force-dynamic';
 
@@ -30,7 +30,7 @@ export default function RootLayout({
 			<head>
 				<ColorSchemeScript color='gray' forceColorScheme='dark' defaultColorScheme='dark' />
 			</head>
-			<body className=''>
+			<body className={inter.className}>
 				<MantineProvider theme={{ 
 					primaryColor: 'gray',
 					fontFamily: 'Inter, sans-serif',
