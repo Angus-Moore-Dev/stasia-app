@@ -152,7 +152,7 @@ export default function DreamEditor({ existingDream, user }: DreamEditorProps)
                 'Lucid Dream',
                 'Other',
             ]} />
-            <Button className="w-full md:w-64" loading={isLoading} onClick={addNewDream}>
+            <Button className="w-full md:w-fit" loading={isLoading} onClick={addNewDream}>
                 {existingDream ? 'Update Dream' : 'Add New Dream'}
             </Button>
         </div>
