@@ -32,7 +32,7 @@ export default function RootLayout({
 			</head>
 			<body className={inter.className}>
 				<MantineProvider theme={{ 
-					primaryColor: 'dark',
+					primaryColor: 'green',
 					fontFamily: 'Inter, sans-serif',
 				}} defaultColorScheme='dark' >
 					<Notifications />
