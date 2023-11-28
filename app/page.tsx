@@ -23,7 +23,7 @@ export default async function Home()
 		}
 		<p className='text-center'>
 			Easily write down and store your dreams here, tagging them for deriving insights. To begin, simply type out your dream in the editor below.
-			If you need to sign in, please do so below. It&apos;s completely free, and you can use it as much as you want.
+			If you need to sign in, please do so below. It&apos;s completely free, and you can use it as much as you want. Updates will occur randomly, so check back often.
 			{/* If you want to know how it works, click <Link href='/how-it-works' target='_blank' className='text-blue-500 transition hover:text-blue-400 underline'>here.</Link> */}
 		</p>
 		{
