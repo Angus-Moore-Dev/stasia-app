@@ -14,7 +14,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
 	title: 'Stasia',
-	description: 'The Free Note Taker, Project Documentation and Wiki App.',
+	description: 'Record your dreams for free, forever.',
 	icons: {
 		icon: '/favicon.ico'
 	}
