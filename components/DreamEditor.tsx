@@ -21,11 +21,11 @@ interface DreamEditorProps
 {
     existingDream?: Dream;
     user: User;
+    onNewDream: (dream: Dream) => void;
 }
 
-export default function DreamEditor({ existingDream, user }: DreamEditorProps)
+export default function DreamEditor({ existingDream, user, onNewDream }: DreamEditorProps)
 {
-    const router = useRouter();
     const supabase = createBrowserClient();
     const [isLoading, setIsLoading] = useState(false);
     const [title, setTitle] = useState('');
@@ -34,8 +34,7 @@ export default function DreamEditor({ existingDream, user }: DreamEditorProps)
     
     const addNewDream = async () =>
     {
-
-        if (!title || !dreamContent || !dreamType)
+        if (!title || !dreamContent)
         {
             notifications.show({
                 title: 'Error Adding New Dream',
@@ -73,7 +72,7 @@ export default function DreamEditor({ existingDream, user }: DreamEditorProps)
             setDreamContent('');
             setTitle('');
             setDreamType(undefined);
-            router.refresh();
+            onNewDream(dream);
         }
         setIsLoading(false);
     }
@@ -152,7 +151,7 @@ export default function DreamEditor({ existingDream, user }: DreamEditorProps)
                 'Lucid Dream',
                 'Other',
             ]} />
-            <Button variant="filled" className="w-full md:w-fit" loading={isLoading} onClick={addNewDream}>
+            <Button variant="filled" className="w-full md:w-fit" loading={isLoading} onClick={() => existingDream ? () => {} : addNewDream()}>
                 {existingDream ? 'Update Dream' : 'Add New Dream'}
             </Button>
         </div>

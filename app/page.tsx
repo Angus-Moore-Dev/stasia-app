@@ -1,11 +1,9 @@
 import Image from 'next/image';
 
 import { createServerClient } from '@/utils/createServerClient';
-import DreamEditor from '@/components/DreamEditor';
-import Link from 'next/link';
 import SignUpModal from '@/components/SignUpModal';
 import SignOutButton from '@/components/SignOutButton';
-import PastDreams from '@/components/PastDreams';
+import DreamDashboard from '@/components/DreamDashboard';
 
 export default async function Home()
 {
@@ -32,10 +30,7 @@ export default async function Home()
 		}
 		{
 			user &&
-			<>
-			<DreamEditor user={user} />
-			<PastDreams />
-			</>
+			<DreamDashboard user={user} />
 		}
 	</main>
 }

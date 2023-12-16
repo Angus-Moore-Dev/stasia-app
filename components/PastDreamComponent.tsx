@@ -1,20 +1,21 @@
 'use client';
 
 import { Dream } from "@/utils/global.types";
-import { Button, Card, Chip, Modal, TypographyStylesProvider } from "@mantine/core";
+import { Button, Modal, TypographyStylesProvider } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
+import DeleteDream from "./DeleteDream";
+import { notifications } from "@mantine/notifications";
 
-
-
-export default function PastDreamComponent({ dream }: { dream: Dream })
+interface PastDreamComponentProps
 {
-    const [dreamContent, setDreamContent] = useState('');
-    const [opened, { open, close }] = useDisclosure(false);
+    dream: Dream;
+    onDelete: (dream: Dream) => void;
+}
 
-    useEffect(() => {
-        setDreamContent(dream.content);
-    }, [dream]);
+export default function PastDreamComponent({ dream, onDelete }: PastDreamComponentProps)
+{
+    const [opened, { open, close }] = useDisclosure(false);
 
     return <>
     <div className="w-full flex flex-col md:flex-row items-center gap-2 bg-[#0e0e0e] p-4 rounded transition hover:bg-[#111111] hover:cursor-pointer"
@@ -29,11 +30,29 @@ export default function PastDreamComponent({ dream }: { dream: Dream })
             {new Date(dream.createdAt).toLocaleDateString('en-AU', { dateStyle: 'full' })}
         </small>
     </div>
-    <Modal opened={opened} onClose={close} centered size={'xl'} title={dream.title}>
+    <Modal opened={opened} onClose={close} centered size={'xl'} title={`${dream.title} | ${new Date(dream.createdAt).toLocaleDateString('en-AU', { dateStyle: 'full' })} | ${dream.dreamType}`}>
         <div className="w-full flex flex-col items-center max-w-2xl mx-auto mr-24 md:mr-12">
             <TypographyStylesProvider>
-                <p dangerouslySetInnerHTML={{ __html: dreamContent }} />
+                <p dangerouslySetInnerHTML={{ __html: dream.content }} />
             </TypographyStylesProvider>
+        </div>
+        <div className="w-full flex justify-end items-center gap-2">
+            <Button onClick={() => {
+                notifications.show({
+                    title: 'Not Implemented Yet',
+                    message: 'Edit dream has not been implemented yet.',
+                    color: 'red'
+                });
+            }}>
+                Edit Dream
+            </Button>
+            <DeleteDream
+            dream={dream}
+            onDelete={() => {
+                onDelete(dream);
+                close();
+            }}
+            />
         </div>
     </Modal>
     </>
