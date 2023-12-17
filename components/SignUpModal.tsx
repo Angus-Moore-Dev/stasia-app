@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Input, Modal, TextInput } from "@mantine/core";
+import { Button, Checkbox, Input, Modal, TextInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -16,9 +16,12 @@ export default function SignUpModal()
     const router = useRouter();
     const supabase = createBrowserClient();
     const [signUp, setSignUp] = useState(false);
+    const [otp, setOtp] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [opened, { open, close }] = useDisclosure(false);
     const [showConfirmEmail, setShowConfirmEmail] = useState(false);
+
+    const [signInWithCode, setSignInWithCode] = useState(false);
 
     useEffect(() => {
         // Set the forms to their initial values when the modal is opened
@@ -36,7 +39,7 @@ export default function SignUpModal()
         },
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-            password: (value) => (value.length >= 8 ? null : 'Password is too short'),
+            password: (value) => (value.length >= 8 ? null : otp ? null : signInWithCode ? null : 'Password is too short'),
         },
     });
 
@@ -71,9 +74,10 @@ export default function SignUpModal()
     const signInUser = async ({ email, password }: { email: string, password: string }) =>
     {
         setIsLoading(true);
-        const { error } = await supabase
-        .auth
-        .signInWithPassword({ email, password });
+        const { error } = 
+        signInWithCode ?
+        await supabase.auth.verifyOtp({ email, token: password, type: 'email' }) :
+        await supabase.auth.signInWithPassword({ email, password });
 
         if (error)
         {
@@ -89,6 +93,39 @@ export default function SignUpModal()
         router.refresh();
     }
 
+    const sendOTPRequest = async ({ email }: { email: string }) =>
+    {
+        if (isLoading) return;
+
+        setIsLoading(true);
+
+        const { error } = await supabase
+        .auth
+        .signInWithOtp({ email });
+
+        if (error)
+        {
+            notifications.show({
+                title: 'Error Sending OTP',
+                message: error.message,
+                color: 'red',
+                variant: 'filled'
+            });
+        }
+        else
+        {
+            notifications.show({
+                title: 'OTP Sent',
+                message: 'An OTP has been sent to your email address.',
+                color: 'green',
+                variant: 'filled'
+            });
+        }
+        setIsLoading(false);
+        setOtp(false);
+        setSignUp(false);
+    };
+
     return <>
     <Modal opened={opened} onClose={close} centered size={'md'} withCloseButton={false}>
         <Image src='/logo.png' alt='Logo' width={384} height={64.5} className="mx-auto" />
@@ -98,6 +135,12 @@ export default function SignUpModal()
                 <form
                 onSubmit={form.onSubmit((values) => 
                 {
+                    if (otp)
+                    {
+                        sendOTPRequest(values);
+                        return;
+                    }
+
                     if (signUp)
                         signUpUser(values);
                     else
@@ -105,14 +148,28 @@ export default function SignUpModal()
                 })}
                 className="w-full flex flex-col gap-4">
                     <TextInput label="Your Email" placeholder="mr.electric@dreamland.com" required withAsterisk {...form.getInputProps('email')} />
-                    <TextInput label="Your Password" placeholder="********" type="password" required withAsterisk {...form.getInputProps('password')} />
+                    {
+                        !otp &&
+                        <>
+                        <TextInput label="Your Password" placeholder="********" type="password" required={!otp} withAsterisk={!otp} {...form.getInputProps('password')} />
+                        <Checkbox label="I am using a code" className="-mt-2 text-sm ml-auto" checked={signInWithCode} onClick={() => setSignInWithCode(!signInWithCode)} />
+                        </>
+                    }
                     <Button variant="filled" type="submit" loading={isLoading}>
-                        Sign {signUp ? 'Up' : 'In'}
+                        { !otp && 'Sign' } {signUp ? 'Up' : otp ? 'Send Code to Email' : 'In'}
                     </Button>
                 </form>
-                <button className="text-blue-500 transition hover:text-blue-400 underline text-sm ml-auto mt-4" onClick={() => setSignUp(!signUp)}>
-                    {signUp ? 'I Have An Account' : 'Create A New Account'}
-                </button>
+                <div className="flex flex-row items-center gap-2 justify-between">
+                    {
+                        !otp &&
+                        <button className="text-blue-500 transition hover:text-blue-400 underline text-sm mt-4" onClick={() => { setOtp(true); setSignUp(false); }}>
+                            I forgot my password
+                        </button>
+                    }
+                    <button className="text-blue-500 transition hover:text-blue-400 underline text-sm ml-auto mt-4" onClick={() => { setSignUp(!signUp); setOtp(false); }}>
+                        {signUp ? 'I Have An Account' : 'Create A New Account'}
+                    </button>
+                </div>
             </div>
         }
         {
